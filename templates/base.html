@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Minha Aplicação{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        {% if user.is_authenticated %}
+            <h2>Olá {{ user.username }}</h2>
+        {% endif %}
+        
+        <h2>Menu</h2>
+        <a href="#">Produção</a>
+        <a href="#">Dashboard</a>
+        <a href="#">Fazer Pedidos</a>
+        <a href="{% url 'cadastrar_produto' %}">Cadastro de produtos</a>
+        <a href="#">Ver Pedidos</a>
+        <a href="#">Cadastrar Clientes</a>
+        <a href="#">Cadastrar Funcionário</a>
+        <a href="#">Sair</a>       
+    </div>
+
+    <!-- Botão de alternância fora da sidebar -->
+    <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+
+    <!-- Conteúdo principal -->
+    <div class="content" id="content">
+        {% block content %}
+        <!-- Conteúdo dinâmico vai aqui -->
+        {% endblock %}
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            var content = document.getElementById('content');
+            var toggleBtn = document.querySelector('.toggle-btn');
+
+            // Alternar a classe 'hidden' na sidebar e 'shifted' no conteúdo
+            sidebar.classList.toggle('hidden');
+            content.classList.toggle('shifted');
+
+            // Ajustar a posição do botão conforme a visibilidade da sidebar
+            if (sidebar.classList.contains('hidden')) {
+                toggleBtn.style.left = '10px';
+            } else {
+                toggleBtn.style.left = '260px';
+            }
+        }
+    </script>
+</body>
+</html>
